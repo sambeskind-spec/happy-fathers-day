@@ -52,12 +52,23 @@
   #intro{
     position:fixed;inset:0;z-index:50;
     display:flex;align-items:center;justify-content:center;
-    padding:24px;
+    padding:28px 20px;overflow-y:auto;
     background:
       radial-gradient(130% 100% at 50% 10%, #ffe39a 0%, var(--yellow) 30%, var(--red) 100%);
     transition:opacity .8s ease, visibility .8s ease;
   }
   #intro.hide{opacity:0;visibility:hidden;}
+  .intro-inner{margin:auto;display:flex;flex-direction:column;align-items:center;gap:16px;width:min(92vw,360px);}
+  .intro-kicker{font-family:"Oswald";font-weight:700;letter-spacing:.3em;color:#fff;opacity:.92;font-size:.72rem;margin:0;text-align:center;text-shadow:0 1px 2px rgba(0,0,0,.2);}
+  .intro-greet{font-family:"Pacifico",cursive;color:#fff;font-size:clamp(1.7rem,8vw,2.4rem);line-height:1.12;text-align:center;margin:0 0 4px;text-shadow:2px 2px 0 var(--red-d),4px 4px 0 rgba(0,0,0,.16);}
+  .float-wrap{width:min(74vw,300px);animation:floaty 4s ease-in-out infinite;}
+  #intro .flip-scene{width:100%;}
+  .continue-btn{margin-top:6px;background:var(--green);color:#fff;border:3px solid #fff;border-radius:30px;
+    padding:13px 26px;font-family:"Anton";letter-spacing:.08em;font-size:1.02rem;cursor:pointer;
+    box-shadow:0 10px 22px rgba(0,0,0,.28);opacity:0;transform:translateY(10px) scale(.9);pointer-events:none;
+    transition:opacity .45s ease,transform .45s cubic-bezier(.2,.8,.2,1);}
+  .continue-btn.show{opacity:1;transform:none;pointer-events:auto;animation:cpulse 2s ease-in-out 1s infinite;}
+  @keyframes cpulse{0%,100%{box-shadow:0 10px 22px rgba(0,0,0,.28)}50%{box-shadow:0 10px 30px rgba(63,145,88,.6)}}
   .stars{position:absolute;inset:0;overflow:hidden;pointer-events:none;opacity:.5;}
   .stars span{position:absolute;color:#fff;font-size:14px;animation:tw 3s ease-in-out infinite;}
   @keyframes tw{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:.9;transform:scale(1.1)}}
@@ -197,49 +208,11 @@
   <!-- INTRO -->
   <div id="intro">
     <div class="stars" id="stars"></div>
-    <div class="envelope" id="openBtn" role="button" tabindex="0" aria-label="Open your Father's Day card">
-      <div class="greeting-card">
-        <div class="topband">★ ★ ★ ★ ★</div>
-        <div class="core">
-          <p class="kicker">A SPECIAL DELIVERY FOR</p>
-          <p class="happy">Happy</p>
-          <h1 class="fathers">FATHER'S&nbsp;DAY</h1>
-          <p class="tap-hint">TAP THE CARD TO OPEN <span class="finger">👇</span></p>
-        </div>
-        <div class="botband">TEAM&nbsp;BESKIND</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MAIN -->
-  <main id="main" aria-hidden="true">
-
-    <!-- NOTE -->
-    <section id="note">
-      <div class="note-wrap reveal">
-        <div class="note-card">
-          <div class="note-tape"></div>
-          <h2 class="note-title">Hi Dad —</h2>
-          <p class="note-body">
-            I spent some time looking back at some of the best memories! Thank you for
-            <strong>getting me up on a boogie board</strong> when I was just a youngster, for your
-            <strong>unending support</strong> helping me chase my dreams, and for being such a
-            <strong>good role model</strong> for the dad and person I want to be in my life.
-            Wish I could be celebrating with you in <strong>Tofino</strong>.
-            You're the coolest. I love you!
-          </p>
-          <div class="note-sign">— Love, Sam</div>
-        </div>
-      </div>
-      <div class="scrollcue reveal"><span>keep scrolling ↓</span></div>
-    </section>
-
-    <!-- HERO CARD -->
-    <section id="hero">
-      <h2 class="section-tag reveal">The Rookie Card</h2>
-      <p class="section-sub reveal">Tap to flip &amp; check the stats</p>
-      <div class="hero-wrap reveal">
-        <div class="flip-scene" id="heroCard" role="button" tabindex="0" aria-label="Flip Dad's card">
+    <div class="intro-inner">
+      <p class="intro-kicker">A SPECIAL DELIVERY FOR</p>
+      <h1 class="intro-greet">Happy Father's Day, Dad</h1>
+      <div class="float-wrap">
+        <div class="flip-scene" id="heroCard" role="button" tabindex="0" aria-label="Flip Dad's rookie card">
           <div class="flip-inner">
             <!-- FRONT -->
             <div class="face front">
@@ -270,8 +243,32 @@
             </div>
           </div>
         </div>
-        <div class="flip-cta reveal">★ First-ballot Hall of Fame ★</div>
       </div>
+      <button class="continue-btn" id="continueBtn" aria-hidden="true">Let's look back ↓</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main id="main" aria-hidden="true">
+
+    <!-- NOTE -->
+    <section id="note">
+      <div class="note-wrap reveal">
+        <div class="note-card">
+          <div class="note-tape"></div>
+          <h2 class="note-title">Hi Dad —</h2>
+          <p class="note-body">
+            I spent some time looking back at some of the best memories! Thank you for
+            <strong>getting me up on a boogie board</strong> when I was just a youngster, for your
+            <strong>unending support</strong> helping me chase my dreams, and for being such a
+            <strong>good role model</strong> for the dad and person I want to be in my life.
+            Wish I could be celebrating with you in <strong>Tofino</strong>.
+            You're the coolest. I love you!
+          </p>
+          <div class="note-sign">— Love, Sam</div>
+        </div>
+      </div>
+      <div class="scrollcue reveal"><span>keep scrolling ↓</span></div>
     </section>
 
     <!-- GALLERY -->
@@ -369,7 +366,16 @@
   });
 
   const hero=document.getElementById('heroCard');
-  const heroFlip=()=>hero.classList.toggle('flipped');
+  const continueBtn=document.getElementById('continueBtn');
+  let flippedOnce=false;
+  const heroFlip=()=>{
+    hero.classList.toggle('flipped');
+    if(!flippedOnce){
+      flippedOnce=true;
+      continueBtn.classList.add('show');
+      continueBtn.setAttribute('aria-hidden','false');
+    }
+  };
   hero.addEventListener('click',heroFlip);
   hero.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();heroFlip();}});
 
@@ -387,9 +393,7 @@
     setTimeout(()=>{document.getElementById('note').scrollIntoView({behavior:'smooth',block:'start'});},250);
     setTimeout(()=>{intro.style.display='none';},900);
   }
-  const ob=document.getElementById('openBtn');
-  ob.addEventListener('click',openCard);
-  ob.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openCard();}});
+  continueBtn.addEventListener('click',openCard);
 </script>
 </body>
 </html>
